@@ -10,41 +10,55 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { userLogin } from "../services/auth";
+import { useNavigate } from "react-router-dom";
 
 const defaultTheme = createTheme();
-
 export default function Login() {
   const [emailError, setEmailError] = React.useState(false);
   const [passwordError, setPasswordError] = React.useState(false);
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
+  const navigate = useNavigate();
 
   const handleChange = (event) => {
     let name = event.target.name;
     if (name === "email") {
-      setEmailError(false)
+      setEmailError(false);
       setEmail(event.target.value);
     }
 
     if (name === "password") {
-      setPasswordError(false)
+      setPasswordError(false);
       setPassword(event.target.value);
     }
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
     let email = data.get("email");
     let password = data.get("password");
     if (email === "" && password === "") {
       setEmailError(true);
       setPasswordError(true);
+      return;
     }
+    if (email === "") {
+      setEmailError(true);
+      return;
+    }
+    if (password === "") {
+      setPasswordError(true);
+      return;
+    }
+
+    await userLogin({ email, password }).then((response) => {
+      console.log("Response", response);
+      if (response.status === 200) {
+        navigate("/chatRoom");
+      }
+    });
   };
 
   return (

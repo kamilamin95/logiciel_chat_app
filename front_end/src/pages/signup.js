@@ -3,8 +3,8 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
+// import FormControlLabel from "@mui/material/FormControlLabel";
+// import Checkbox from "@mui/material/Checkbox";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
@@ -12,8 +12,10 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-const defaultTheme = createTheme();
+import { userSignup } from "../services/auth";
+import { useNavigate } from "react-router-dom";
 
+const defaultTheme = createTheme();
 export default function Signup() {
   const [firstNameError, setFirstNameError] = React.useState(false);
   const [lastNameError, setLastNameError] = React.useState(false);
@@ -24,6 +26,7 @@ export default function Signup() {
   const [lastName, setLastName] = React.useState("");
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
+  const navigate = useNavigate();
 
   const handleChange = (event) => {
     let name = event.target.name;
@@ -49,13 +52,9 @@ export default function Signup() {
     }
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
     let firstName = data.get("firstName");
     let lastName = data.get("lastName");
     let email = data.get("email");
@@ -70,7 +69,37 @@ export default function Signup() {
       setLastNameError(true);
       setEmailError(true);
       setPasswordError(true);
+      return;
     }
+
+    if (firstName === "") {
+      setFirstNameError(true);
+      return;
+    }
+
+    if (lastName === "") {
+      setLastNameError(true);
+      return;
+    }
+
+    if (email === "") {
+      setEmailError(true);
+      return;
+    }
+
+    if (password === "") {
+      setPasswordError(true);
+      return;
+    }
+
+    await userSignup({ firstName, lastName, email, password }).then(
+      (response) => {
+        console.log("response", response);
+        if (response.status === 201) {
+          navigate("/login");
+        }
+      }
+    );
   };
 
   return (
