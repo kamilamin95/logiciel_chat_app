@@ -6,10 +6,10 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
-import {useNavigate} from 'react-router-dom'
+import { useNavigate } from "react-router-dom";
 
-function Header() {
-  const navigate = useNavigate()
+function Header({ setUserLogin, userLogin }) {
+  const navigate = useNavigate();
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
@@ -26,7 +26,21 @@ function Header() {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Logiciel Chat App
           </Typography>
-          <Button onClick={() => navigate('/login')} color="inherit">Login</Button>
+          {userLogin ? (
+            <Button onClick={() => navigate("/login")} color="inherit">
+              Login
+            </Button>
+          ) : (
+            <Button
+              onClick={() => {
+                navigate("/login");
+                setUserLogin(false);
+              }}
+              color="inherit"
+            >
+              Signout
+            </Button>
+          )}
         </Toolbar>
       </AppBar>
     </Box>

@@ -1,9 +1,12 @@
-import React from 'react'
+import React from "react";
+import Header from "../components/header";
 
-function ChatRoom() {
+function ChatRoom({ setUserLogin, userLogin }) {
   return (
-    <div>chatRoom</div>
-  )
+    <>
+      <Header setUserLogin={setUserLogin} userLogin={userLogin} />
+    </>
+  );
 }
 
-export default ChatRoom
+export default ChatRoom;
