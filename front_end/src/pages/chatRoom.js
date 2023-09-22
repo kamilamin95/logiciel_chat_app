@@ -1,10 +1,11 @@
 import React from "react";
 import Header from "../components/header";
 
-function ChatRoom({ setUserLogin, userLogin }) {
+function ChatRoom() {
   return (
     <>
-      <Header setUserLogin={setUserLogin} userLogin={userLogin} />
+      <Header />
+      Chat room
     </>
   );
 }

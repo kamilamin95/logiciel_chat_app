@@ -14,7 +14,7 @@ import { userLogin } from "../services/auth";
 import { useNavigate } from "react-router-dom";
 
 const defaultTheme = createTheme();
-export default function Login({setUserLogin}) {
+export default function Login() {
   const [emailError, setEmailError] = React.useState(false);
   const [passwordError, setPasswordError] = React.useState(false);
   const [email, setEmail] = React.useState("");
@@ -57,7 +57,6 @@ export default function Login({setUserLogin}) {
       console.log("Response", response);
       if (response.status === 200) {
         navigate("/chatRoom");
-        setUserLogin(true)
       }
     });
   };

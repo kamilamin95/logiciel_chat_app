@@ -8,7 +8,7 @@ import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useNavigate } from "react-router-dom";
 
-function Header({ setUserLogin, userLogin }) {
+function Header() {
   const navigate = useNavigate();
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -26,7 +26,10 @@ function Header({ setUserLogin, userLogin }) {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Logiciel Chat App
           </Typography>
-          {userLogin ? (
+          <Button onClick={() => navigate("/login")} color="inherit">
+            Login
+          </Button>
+          {/* {userLogin ? (
             <Button onClick={() => navigate("/login")} color="inherit">
               Login
             </Button>
@@ -40,7 +43,7 @@ function Header({ setUserLogin, userLogin }) {
             >
               Signout
             </Button>
-          )}
+          )} */}
         </Toolbar>
       </AppBar>
     </Box>
