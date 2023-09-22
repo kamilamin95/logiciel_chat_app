@@ -6,26 +6,26 @@ import Login from "./pages/login";
 import Signup from "./pages/signup";
 import ChatRoom from "./pages/chatRoom";
 
-function Protected({ isSignedIn, children }) {
-  if (!isSignedIn) {
-    return <Navigate to="/" replace />;
-  }
-  return children;
-}
+// function Protected({ isSignedIn, children }) {
+//   if (!isSignedIn) {
+//     return <Navigate to="/" replace />;
+//   }
+//   return children;
+// }
 
 function App() {
-  const [userLogin, setUserLogin] = useState(false);
+  // const [userLogin, setUserLogin] = useState(true);
   return (
     <Routes>
-      <Route path="/" element={<Home userLogin={userLogin} />} />
-      <Route path="/login" element={<Login setUserLogin={setUserLogin} />} />
+      <Route path="/" element={<Home />} />
+      <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<Signup />} />
-      <Route path="/chatRoom" element={
+      <Route path="/chatRoom" element={<ChatRoom />} />
+      {/* <Route path="/chatRoom" element={
         <Protected isSignedIn={userLogin}>
           <ChatRoom setUserLogin={setUserLogin} />
         </Protected>
-      } />
-      {/* <Route path="/chatRoom" element={<ChatRoom userLogin={userLogin} />} /> */}
+      } /> */}
     </Routes>
   );
 }
