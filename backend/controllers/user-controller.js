@@ -93,39 +93,6 @@ const getUser = async (req, res) => {
     return res.status(200).json({ user })
 }
 
-const refreshToken = (req, res, next) => {
-    const cookies = req.headers.cookie
-    const prevToken = cookies.split("=")[7]
-
-    if (!prevToken) {
-        return res.status(400).json({ message: 'Token not found!' })
-    }
-
-    jwt.verify(String(prevToken), process.env.JWT_SECRET_KEY, (err, user) => {
-        if (err) {
-            console.log(err);
-            return res.status(403).json({ message: 'Authentication failed' })
-        }
-        res.clearCookie(`${user.id}`)
-        req.cookies[`${user.id}`] = ''
-
-        const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET_KEY, {
-            expiresIn: '35s'
-        })
-
-        console.log("Regenerated token\n", token);
-
-        res.cookie(String(user.id), token, {
-            path: '/',
-            expires: new Date(Date.now() + 1000 * 30),
-            httpOnly: true,
-            sameSite: 'lax'
-        })
-        req.id = user.id
-        next()
-    })
-}
-
 const logout = (req,res,next) => {
     const cookies = req.headers.cookie;
     const prevToken = cookies.split("=")[7];
@@ -147,5 +114,5 @@ exports.signup = signup
 exports.login = login
 exports.verifyToken = verifyToken
 exports.getUser = getUser
-exports.refreshToken = refreshToken
+// exports.refreshToken = refreshToken
 exports.logout = logout
