@@ -22,7 +22,10 @@ app.use("/api", router);
 
 io.on("connection", (socket) => {
   console.log("New client connection");
-  socket.emit("connection", null);
+  socket.on("chat message", (message) => {
+    console.log('This is message from client', message);
+    // io.emit('chat message', message)
+  });
 });
 
 mongoose
