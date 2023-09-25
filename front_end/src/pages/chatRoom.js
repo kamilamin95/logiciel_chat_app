@@ -1,36 +1,23 @@
 import React, { useEffect, useState } from "react";
 import Header from "../components/header";
-// // import {io} from 'socket.io-client'
-import socketClient from "socket.io-client";
 import "../styles/chatRoom.css";
 import { Button, TextField } from "@mui/material";
 
-function ChatRoom() {
+function ChatRoom({ socket }) {
   const [textMessage, setTextMessage] = useState("");
-  // const [serverMessages, setServerMessages] = useState("");
-
-  var socket = socketClient("http://localhost:5000");
-  socket.on("connection", () => {
-    console.log("Socket connection is established");
-  });
+  const [serverMessages, setServerMessages] = useState([]);
 
   const sendMessage = () => {
-    socket.emit("chat message", textMessage);
+    socket.emit("message", textMessage);
+    setTextMessage('')
   };
 
-  // socket.on("chat message", function (msg) {
-  //   console.log("received Messages", msg);
-  //   setServerMessages(msg);
-  //   msgArr.push(msg);
-  // });
+  useEffect(() => {
+    socket.on("message", function (msg) {
+      setServerMessages([...serverMessages, msg]);
+    });
+  }, [socket, serverMessages]);
 
-  // useEffect(() => {
-  //   socket.on("connection", () => {
-  //     console.log("Socket connection is established");
-  //   });
-  // }, []);
-
-  // console.log("messages array", msgArr);
   return (
     <>
       <Header />
@@ -43,10 +30,10 @@ function ChatRoom() {
         Send Message
       </Button>
 
-      {/* {msgArr.map((item, i) => {
+      {serverMessages.map((item, i) => {
         console.log(item);
         return <li key={i}>{item}</li>;
-      })} */}
+      })}
     </>
   );
 }
