@@ -4,7 +4,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import Home from "./pages/home";
 import Login from "./pages/login";
 import Signup from "./pages/signup";
-import ChatRoom from "./pages/chatRoom";
+import ChatPage from "./pages/chatPage";
 import socketClient from "socket.io-client";
 
 
@@ -16,7 +16,7 @@ function App() {
       <Route path="/" element={<Home />} />
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<Signup />} />
-      <Route path="/chatRoom" element={<ChatRoom socket={socket} />} />
+      <Route path="/chatPage" element={<ChatPage socket={socket} />} />
     </Routes>
   );
 }

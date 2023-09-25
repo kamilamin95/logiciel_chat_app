@@ -61,7 +61,7 @@ export default function Login() {
         if (response.status === 200) {
           sessionStorage.setItem('user_accessToken', response.data.accessToken)
           sessionStorage.setItem('userLogin', true)
-          navigate("/chatRoom");
+          navigate("/chatPage");
         }
       });
     } catch (error) {
