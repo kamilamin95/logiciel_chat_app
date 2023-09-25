@@ -21,11 +21,16 @@ app.use(express.json());
 app.use("/api", router);
 
 io.on("connection", (socket) => {
-  console.log("New client connection");
-  socket.on("chat message", (message) => {
-    console.log('This is message from client', message);
-    // io.emit('chat message', message)
+  console.log(`New client connection with client ID ${socket.id}`);
+
+  socket.on("message", (message) => {
+    console.log("This is message from client", message);
+    io.emit("message", message);
   });
+
+  // socket.on("disconnect", () => {
+  //   console.log("A user is disconnected");
+  // });
 });
 
 mongoose
@@ -33,7 +38,7 @@ mongoose
     `mongodb+srv://admin:${process.env.MONGODB_PASSWORD}@cluster0.ejlha13.mongodb.net/mern-auth?retryWrites=true&w=majority`
   )
   .then(() => {
-    server.listen(5000);
+    server.listen(port);
     console.log("Database Connected! App is listening at 5000 port");
   })
   .catch((error) => console.log(error));
