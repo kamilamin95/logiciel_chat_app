@@ -5,27 +5,18 @@ import Home from "./pages/home";
 import Login from "./pages/login";
 import Signup from "./pages/signup";
 import ChatRoom from "./pages/chatRoom";
+import socketClient from "socket.io-client";
 
-// function Protected({ isSignedIn, children }) {
-//   if (!isSignedIn) {
-//     return <Navigate to="/" replace />;
-//   }
-//   return children;
-// }
+
+const socket = socketClient('http://localhost:5000')
 
 function App() {
-  // const [userLogin, setUserLogin] = useState(true);
   return (
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<Signup />} />
-      <Route path="/chatRoom" element={<ChatRoom />} />
-      {/* <Route path="/chatRoom" element={
-        <Protected isSignedIn={userLogin}>
-          <ChatRoom setUserLogin={setUserLogin} />
-        </Protected>
-      } /> */}
+      <Route path="/chatRoom" element={<ChatRoom socket={socket} />} />
     </Routes>
   );
 }
