@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import Header from "../components/header";
 import "../styles/chatRoom.css";
 import { Button, TextField } from "@mui/material";
-// import MainContainer from "../components/MainContainer";
+import { getUserDetails } from "../services/auth";
 
-function ChatRoom({ socket }) {
+function ChatPage({ socket }) {
   const [textMessage, setTextMessage] = useState("");
   const [serverMessages, setServerMessages] = useState([]);
 
@@ -13,16 +13,27 @@ function ChatRoom({ socket }) {
     setTextMessage('')
   };
 
+  const fetchUserDetails = async () => {
+    await getUserDetails().then(response => {
+      sessionStorage.setItem('firstName', response.data.user.firstName)
+      sessionStorage.setItem('lastName', response.data.user.lastName)
+      sessionStorage.setItem('email', response.data.user.email)
+    }).catch(error => console.log(error))
+  }
+
   useEffect(() => {
     socket.on("message", function (msg) {
       setServerMessages([...serverMessages, msg]);
     });
   }, [socket, serverMessages]);
+  
+  useEffect(() => {
+    fetchUserDetails()
+  }, [])
 
   return (
     <>
       <Header />
-      {/* <MainContainer /> */}
       <TextField
         type="text"
         value={textMessage}
@@ -33,11 +44,10 @@ function ChatRoom({ socket }) {
       </Button>
 
       {serverMessages.map((item, i) => {
-        console.log(item);
         return <li key={i}>{item}</li>;
       })}
     </>
   );
 }
 
-export default ChatRoom;
+export default ChatPage;
