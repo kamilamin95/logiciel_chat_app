@@ -19,6 +19,7 @@ export default function Login() {
   const [passwordError, setPasswordError] = React.useState(false);
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
+  const [errorMessage, setErrorMessage] = React.useState("");
   const navigate = useNavigate();
 
   const handleChange = (event) => {
@@ -26,11 +27,13 @@ export default function Login() {
     if (name === "email") {
       setEmailError(false);
       setEmail(event.target.value);
+      setErrorMessage("");
     }
 
     if (name === "password") {
       setPasswordError(false);
       setPassword(event.target.value);
+      setErrorMessage("");
     }
   };
 
@@ -53,12 +56,20 @@ export default function Login() {
       return;
     }
 
-    await userLogin({ email, password }).then((response) => {
-      console.log("Response", response);
-      if (response.status === 200) {
-        navigate("/chatRoom");
+    try {
+      await userLogin({ email, password }).then((response) => {
+        if (response.status === 200) {
+          sessionStorage.setItem('user_accessToken', response.data.accessToken)
+          sessionStorage.setItem('userLogin', true)
+          navigate("/chatRoom");
+        }
+      });
+    } catch (error) {
+      console.log("Error", error);
+      if (error.response.status === 404) {
+        setErrorMessage(error.response.data.message);
       }
-    });
+    }
   };
 
   return (
@@ -111,6 +122,7 @@ export default function Login() {
               value={password}
               onChange={(event) => handleChange(event)}
             />
+            {errorMessage && <p style={{color: 'red', fontSize: '15px'}}>{errorMessage}</p>}
             {/* <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"
@@ -119,7 +131,7 @@ export default function Login() {
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 2 }}
+              sx={{ mt: 1, mb: 2 }}
             >
               Sign In
             </Button>

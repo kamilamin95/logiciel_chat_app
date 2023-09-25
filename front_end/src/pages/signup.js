@@ -92,14 +92,17 @@ export default function Signup() {
       return;
     }
 
-    await userSignup({ firstName, lastName, email, password }).then(
-      (response) => {
-        console.log("response", response);
-        if (response.status === 201) {
-          navigate("/login");
+    try {
+      await userSignup({ firstName, lastName, email, password }).then(
+        (response) => {
+          if (response.status === 201) {
+            navigate("/login");
+          }
         }
-      }
-    );
+      );
+    } catch (error) {
+      console.log("ERROR", error);
+    }
   };
 
   return (
@@ -157,6 +160,7 @@ export default function Signup() {
               <Grid item xs={12}>
                 <TextField
                   error={emailError}
+                  type="email"
                   required
                   fullWidth
                   id="email"

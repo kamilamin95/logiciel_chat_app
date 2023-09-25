@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Header from "../components/header";
 import "../styles/chatRoom.css";
 import { Button, TextField } from "@mui/material";
+// import MainContainer from "../components/MainContainer";
 
 function ChatRoom({ socket }) {
   const [textMessage, setTextMessage] = useState("");
@@ -21,6 +22,7 @@ function ChatRoom({ socket }) {
   return (
     <>
       <Header />
+      {/* <MainContainer /> */}
       <TextField
         type="text"
         value={textMessage}

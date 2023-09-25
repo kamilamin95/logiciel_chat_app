@@ -10,6 +10,20 @@ import { useNavigate } from "react-router-dom";
 
 function Header() {
   const navigate = useNavigate();
+  const [userLogin, setUserLogin] = React.useState(false);
+
+  const logout = () => {
+    sessionStorage.clear();
+    navigate("/login");
+    setUserLogin(false);
+  };
+  React.useEffect(() => {
+    if (sessionStorage.getItem("userLogin") !== null) {
+      setUserLogin(true);
+    } else {
+      setUserLogin(false);
+    }
+  }, []);
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
@@ -26,24 +40,22 @@ function Header() {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Logiciel Chat App
           </Typography>
-          <Button onClick={() => navigate("/login")} color="inherit">
+          {/* <Button onClick={() => navigate("/login")} color="inherit">
             Login
-          </Button>
-          {/* {userLogin ? (
-            <Button onClick={() => navigate("/login")} color="inherit">
-              Login
-            </Button>
-          ) : (
+          </Button> */}
+          {userLogin ? (
             <Button
-              onClick={() => {
-                navigate("/login");
-                setUserLogin(false);
-              }}
-              color="inherit"
+              onClick={() => logout()}
+              color="error"
+              variant="contained"
             >
               Signout
             </Button>
-          )} */}
+          ) : (
+            <Button onClick={() => navigate("/login")} color="inherit">
+              Login
+            </Button>
+          )}
         </Toolbar>
       </AppBar>
     </Box>
