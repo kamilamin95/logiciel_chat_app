@@ -8,11 +8,12 @@ import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useNavigate } from "react-router-dom";
 
-function Header() {
+function Header({ socket }) {
   const navigate = useNavigate();
   const [userLogin, setUserLogin] = React.useState(false);
 
   const logout = () => {
+    socket.disconnect()
     sessionStorage.clear();
     navigate("/login");
     setUserLogin(false);
