@@ -8,8 +8,6 @@ function ChatFooter({ socket }) {
 
   const handleSendMessage = (e) => {
     e.preventDefault();
-    console.log({ userName: sessionStorage.getItem("firstName"), message });
-    // socket.emit("message", );
     socket.emit("message", {
       text: message,
       name: sessionStorage.getItem("firstName"),
@@ -18,7 +16,7 @@ function ChatFooter({ socket }) {
     });
     setMessage("");
   };
-  
+
   return (
     <div className="chat__footer">
       <form className="form" onSubmit={handleSendMessage}>
