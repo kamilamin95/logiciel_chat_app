@@ -3,6 +3,9 @@ import React from "react";
 function ChatFooter({ socket }) {
   const [message, setMessage] = React.useState("");
 
+  const handleTyping = () =>
+    socket.emit("typing", `${sessionStorage.getItem("firstName")} is typing`);
+
   const handleSendMessage = (e) => {
     e.preventDefault();
     console.log({ userName: sessionStorage.getItem("firstName"), message });
@@ -15,6 +18,7 @@ function ChatFooter({ socket }) {
     });
     setMessage("");
   };
+  
   return (
     <div className="chat__footer">
       <form className="form" onSubmit={handleSendMessage}>
@@ -23,7 +27,10 @@ function ChatFooter({ socket }) {
           placeholder="Write message"
           className="message"
           value={message}
-          onChange={(e) => setMessage(e.target.value)}
+          onChange={(e) => {
+            setMessage(e.target.value);
+          }}
+          onKeyDown={handleTyping}
         />
         <button className="sendBtn">SEND</button>
       </form>
