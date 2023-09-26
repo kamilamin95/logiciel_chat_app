@@ -1,29 +1,30 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Header from "../components/header";
 import "../styles/chatRoom.css";
-import { Button, TextField } from "@mui/material";
 import { getUserDetails } from "../services/auth";
 import ChatBar from "../components/ChatBar";
-import ChatBody from '../components/ChatBody'
+import ChatBody from "../components/ChatBody";
 import ChatFooter from "../components/ChatFooter";
 
 function ChatPage({ socket }) {
-  const [textMessage, setTextMessage] = useState("");
   const [serverMessages, setServerMessages] = useState([]);
-
-  const sendMessage = () => {
-    socket.emit("message", textMessage);
-    setTextMessage("");
-  };
+  const [typingStatus, setTypingStatus] = useState("");
+  const lastMessageScroll = useRef(null);
 
   const fetchUserDetails = async () => {
-    await getUserDetails()
-      .then((response) => {
+    try {
+      await getUserDetails().then((response) => {
         sessionStorage.setItem("firstName", response.data.user.firstName);
         sessionStorage.setItem("lastName", response.data.user.lastName);
         sessionStorage.setItem("email", response.data.user.email);
-      })
-      .catch((error) => console.log(error));
+        socket.emit("newUser", {
+          userName: response.data.user.firstName,
+          socketID: socket.id,
+        });
+      });
+    } catch (error) {
+      console.log("Error", error);
+    }
   };
 
   useEffect(() => {
@@ -36,13 +37,25 @@ function ChatPage({ socket }) {
     fetchUserDetails();
   }, []);
 
+  useEffect(() => {
+    lastMessageScroll.current?.scrollIntoView({ behavior: "smooth" });
+  }, [serverMessages]);
+
+  useEffect(() => {
+    socket.on("typingResponse", (data) => setTypingStatus(data));
+  }, [socket]);
+
   return (
     <>
-      <Header />
+      <Header socket={socket} />
       <div className="chat">
-        <ChatBar />
+        <ChatBar socket={socket} />
         <div className="chat__main">
-          <ChatBody />
+          <ChatBody
+            messages={serverMessages}
+            lastMessageScroll={lastMessageScroll}
+            typingStatus={typingStatus}
+          />
           <ChatFooter socket={socket} />
         </div>
       </div>
