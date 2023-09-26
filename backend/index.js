@@ -20,17 +20,30 @@ app.use(cookieParser());
 app.use(express.json());
 app.use("/api", router);
 
+let usersArr = [];
 io.on("connection", (socket) => {
   console.log(`New client connection with client ID ${socket.id}`);
 
   socket.on("message", (message) => {
-    console.log("This is message from client", message);
     io.emit("message", message);
   });
 
-  // socket.on("disconnect", () => {
-  //   console.log("A user is disconnected");
-  // });
+  socket.on('newUser', (data) => {
+    usersArr.push(data);
+    io.emit('newUserResponse', usersArr);
+  });
+
+  socket.on('typing', (data) => socket.broadcast.emit('typingResponse', data))
+
+  socket.on("disconnect", () => {
+    console.log("A user is disconnected");
+    usersArr = usersArr.filter((user) => user.socketID !== socket.id)
+
+    console.log('usersArr', usersArr);
+
+    io.emit('newUserResponse', usersArr)
+    socket.disconnect()
+  });
 });
 
 mongoose
