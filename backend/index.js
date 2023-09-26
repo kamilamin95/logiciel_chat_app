@@ -39,8 +39,6 @@ io.on("connection", (socket) => {
     console.log("A user is disconnected");
     usersArr = usersArr.filter((user) => user.socketID !== socket.id)
 
-    console.log('usersArr', usersArr);
-
     io.emit('newUserResponse', usersArr)
     socket.disconnect()
   });
