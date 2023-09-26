@@ -59,8 +59,8 @@ export default function Login() {
     try {
       await userLogin({ email, password }).then((response) => {
         if (response.status === 200) {
-          sessionStorage.setItem('user_accessToken', response.data.accessToken)
-          sessionStorage.setItem('userLogin', true)
+          sessionStorage.setItem("user_accessToken", response.data.accessToken);
+          sessionStorage.setItem("userLogin", true);
           navigate("/chatPage");
         }
       });
@@ -122,7 +122,9 @@ export default function Login() {
               value={password}
               onChange={(event) => handleChange(event)}
             />
-            {errorMessage && <p style={{color: 'red', fontSize: '15px'}}>{errorMessage}</p>}
+            {errorMessage && (
+              <p style={{ color: "red", fontSize: "15px" }}>{errorMessage}</p>
+            )}
             {/* <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"
