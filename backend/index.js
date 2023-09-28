@@ -7,17 +7,43 @@ const cookieParser = require("cookie-parser");
 const http = require("http");
 const server = http.createServer(app);
 const { Server } = require("socket.io");
+// const io = new Server(server, { cors: { origins: '*:*'} })
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:3000",
+    origin: [
+      "*",
+      "http://localhost:3000",
+      "http://10.0.12.55",
+      "http://10.0.12.55:80",
+      "http://localhost:80",
+      "http://localhost",
+      "http://10.0.12.55:5000",
+    ],
+    methods: ["GET", "POST"],
+    allowedHeaders: ["*"],
+    credentials: true,
   },
 });
+
 const port = 5000;
 require("dotenv").config();
 
-app.use(cors({ credentials: true, origin: "http://localhost:3000" }));
+// app.use(cors())
+app.use(
+  cors({
+    credentials: true,
+    origin: [
+      "http://localhost:3000",
+      "http://10.0.12.55",
+      "http://10.0.12.55:80"
+    ],
+  })
+);
 app.use(cookieParser());
 app.use(express.json());
+app.get("/", (req, res) => {
+  res.send("Logiciel chat app");
+});
 app.use("/api", router);
 
 let usersArr = [];
@@ -28,19 +54,19 @@ io.on("connection", (socket) => {
     io.emit("message", message);
   });
 
-  socket.on('newUser', (data) => {
+  socket.on("newUser", (data) => {
     usersArr.push(data);
-    io.emit('newUserResponse', usersArr);
+    io.emit("newUserResponse", usersArr);
   });
 
-  socket.on('typing', (data) => socket.broadcast.emit('typingResponse', data))
+  socket.on("typing", (data) => socket.broadcast.emit("typingResponse", data));
 
   socket.on("disconnect", () => {
     console.log("A user is disconnected");
-    usersArr = usersArr.filter((user) => user.socketID !== socket.id)
+    usersArr = usersArr.filter((user) => user.socketID !== socket.id);
 
-    io.emit('newUserResponse', usersArr)
-    socket.disconnect()
+    io.emit("newUserResponse", usersArr);
+    socket.disconnect();
   });
 });
 
