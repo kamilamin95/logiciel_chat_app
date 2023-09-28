@@ -74,7 +74,8 @@ const verifyToken = (req, res, next) => {
   }
   jwt.verify(String(token), process.env.JWT_SECRET_KEY, (error, user) => {
     if (error) {
-      return res.status(401).json({ message: "Invalid Token" });
+      res.status(401).json({ message: "Invalid Token" });
+      return;
     }
     req.id = user.id;
   });
@@ -90,9 +91,10 @@ const getUser = async (req, res) => {
     return new Error(error);
   }
   if (!user) {
-    return res.status(404).json({ message: "User Not Found" });
+    res.status(404);
+    return;
   }
-  res.setHeader("Content-Type", "application/json");
+  // res.setHeader("Content-Type", "application/json");
   return res.status(200).json({ user });
 };
 
