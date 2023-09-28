@@ -1,5 +1,5 @@
 import axios from "axios";
-import {BASE_URL} from '../settings.json'
+import BASE_URL from '../settings.json'
 
 const userLogin = async (data) => {
     const result = await axios({
