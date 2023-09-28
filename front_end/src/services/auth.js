@@ -1,9 +1,10 @@
 import axios from "axios";
+import {BASE_URL} from '../settings.json'
 
 const userLogin = async (data) => {
     const result = await axios({
         method: 'POST',
-        url: 'http://localhost:5000/api/login',
+        url: `${BASE_URL}/api/login`,
         data: data
     })
     return result
@@ -12,7 +13,7 @@ const userLogin = async (data) => {
 const userSignup = async (data) => {
     const result = await axios({
         method: 'POST',
-        url: 'http://localhost:5000/api/signup',
+        url: `${BASE_URL}/api/signup`,
         data: data
     })
     return result
@@ -22,7 +23,7 @@ const getUserDetails = async () => {
     let token = sessionStorage.getItem('user_accessToken')
     const result = await axios({
         method: 'GET',
-        url: 'http://localhost:5000/api/user',
+        url: `${BASE_URL}/api/user`,
         headers: {
             'Authorization': `Bearer ${token}`
         }
