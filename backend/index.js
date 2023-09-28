@@ -15,28 +15,28 @@ const io = new Server(server, {
       "http://localhost:3000",
       "http://10.0.12.55",
       "http://10.0.12.55:80",
+      "http://10.0.12.55:80:",
       "http://localhost:80",
       "http://localhost",
       "http://10.0.12.55:5000",
     ],
     methods: ["GET", "POST"],
-    allowedHeaders: ["*"],
-    credentials: true,
+    credentials: false,
   },
 });
 
 const port = 5000;
 require("dotenv").config();
 
-// app.use(cors())
 app.use(
   cors({
-    credentials: true,
-    origin: [
-      "http://localhost:3000",
-      "http://10.0.12.55",
-      "http://10.0.12.55:80"
-    ],
+    credentials: false,
+    origin: '*',
+    // origin: [
+    //   "http://localhost:3000",
+    //   "http://10.0.12.55",
+    //   "http://10.0.12.55:80"
+    // ],
   })
 );
 app.use(cookieParser());
