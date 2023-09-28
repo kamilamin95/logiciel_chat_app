@@ -30,12 +30,7 @@ require("dotenv").config();
 app.use(
   cors({
     credentials: false,
-    origin: '*',
-    // origin: [
-    //   "http://localhost:3000",
-    //   "http://10.0.12.55",
-    //   "http://10.0.12.55:80"
-    // ],
+    origin: '*'
   })
 );
 app.use(cookieParser());
