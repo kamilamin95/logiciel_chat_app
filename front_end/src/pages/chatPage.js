@@ -59,18 +59,6 @@ function ChatPage({ socket }) {
           <ChatFooter socket={socket} />
         </div>
       </div>
-      {/* <TextField
-        type="text"
-        value={textMessage}
-        onChange={(ev) => setTextMessage(ev.target.value)}
-      />
-      <Button onClick={() => sendMessage()} color="inherit">
-        Send Message
-      </Button>
-
-      {serverMessages.map((item, i) => {
-        return <li key={i}>{item}</li>;
-      })} */}
     </>
   );
 }
