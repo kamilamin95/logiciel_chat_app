@@ -9,7 +9,7 @@ import socketClient from "socket.io-client";
 import BASE_URL from './settings.json'
 
 
-const socket = socketClient(`${BASE_URL}`)
+const socket = socketClient(`${BASE_URL.BASE_URL}`)
 
 function App() {
   return (
