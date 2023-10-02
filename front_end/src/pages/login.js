@@ -59,8 +59,8 @@ export default function Login() {
     try {
       await userLogin({ email, password }).then((response) => {
         if (response.status === 200) {
-          sessionStorage.setItem("user_accessToken", response.data.accessToken);
-          sessionStorage.setItem("userLogin", true);
+          localStorage.setItem("user_accessToken", response.data.accessToken);
+          localStorage.setItem("userLogin", true);
           navigate("/chatPage");
         }
       });

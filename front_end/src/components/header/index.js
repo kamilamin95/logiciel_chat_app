@@ -14,12 +14,12 @@ function Header({ socket }) {
 
   const logout = () => {
     socket.disconnect()
-    sessionStorage.clear();
+    localStorage.clear();
     navigate("/login");
     setUserLogin(false);
   };
   React.useEffect(() => {
-    if (sessionStorage.getItem("userLogin") !== null) {
+    if (localStorage.getItem("userLogin") !== null) {
       setUserLogin(true);
     } else {
       setUserLogin(false);

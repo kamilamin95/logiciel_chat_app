@@ -9,7 +9,7 @@ function ChatBar({ socket }) {
   return (
     <div className="chat__sidebar">
       <div>
-        <h2>Welcome {sessionStorage.getItem('firstName')}</h2>
+        <h2>Welcome {localStorage.getItem('firstName')}</h2>
         <h4 className="chat__header">Available USERS</h4>
         <div className="chat__users">
           {users.map((user, i) => (
