@@ -20,7 +20,7 @@ const io = new Server(server, {
       "http://10.0.12.55:5000",
     ],
     methods: ["GET", "POST"],
-    credentials: false,
+    credentials: true,
   },
 });
 
@@ -29,8 +29,8 @@ require("dotenv").config();
 
 app.use(
   cors({
-    credentials: false,
-    origin: '*'
+    credentials: true,
+    origin: ['http://localhost:3000']
   })
 );
 app.use(cookieParser());
