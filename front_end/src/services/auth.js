@@ -1,40 +1,62 @@
 import axios from "axios";
-import BASE_URL from '../settings.json'
+import BASE_URL from "../settings.json";
+
+axios.defaults.withCredentials = true;
 
 const userLogin = async (data) => {
+  const result = await axios({
+    method: "POST",
+    withCredentials: true,
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+      "Content-Type": "application/json",
+    },
+    url: `${BASE_URL.BASE_URL}/api/login`,
+    data: data,
+  });
 
-    // console.log('BASE_URL', BASE_URL);
-    const result = await axios({
-        method: 'POST',
-        url: `${BASE_URL.BASE_URL}/api/login`,
-        data: data
-    })
-    return result
-}
+  return result;
+};
 
 const userSignup = async (data) => {
-    const result = await axios({
-        method: 'POST',
-        url: `${BASE_URL.BASE_URL}/api/signup`,
-        data: data
-    })
-    return result
-}
+  const result = await axios({
+    method: "POST",
+    withCredentials: true,
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+      "Content-Type": "application/json",
+    },
+    url: `${BASE_URL.BASE_URL}/api/signup`,
+    data: data,
+  });
+  return result;
+};
 
 const getUserDetails = async () => {
-    let token = sessionStorage.getItem('user_accessToken')
-    const result = await axios({
-        method: 'GET',
-        url: `${BASE_URL.BASE_URL}/api/user`,
-        headers: {
-            'Authorization': `Bearer ${token}`
-        }
-    })
-    return result
-}
+  let token = localStorage.getItem("user_accessToken");
+  const result = await axios({
+    method: "GET",
+    withCredentials: true,
+    url: `${BASE_URL.BASE_URL}/api/user`,
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+      "Content-Type": "application/json"
+    },
+  });
+  return result;
+};
 
-export {
-    userLogin,
-    userSignup,
-    getUserDetails
-}
+const generateRefreshToken = async () => {
+  const result = await axios({
+    method: "GET",
+    withCredentials: true,
+    headers: {
+        'Access-Control-Allow-Origin': '*', 
+        'Content-Type': 'application/json'
+    },
+    url: `${BASE_URL.BASE_URL}/api/refresh`,
+  });
+  return result;
+};
+
+export { userLogin, userSignup, getUserDetails, generateRefreshToken };
