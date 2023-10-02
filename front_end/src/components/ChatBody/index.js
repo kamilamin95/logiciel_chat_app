@@ -2,7 +2,6 @@ import React from "react";
 // import {useNavigate} from 'react-router-dom'
 
 function ChatBody({ messages, lastMessageScroll, typingStatus }) {
-  console.log('typingStatus', typingStatus);
   return (
     <>
       <div className="message__container">
