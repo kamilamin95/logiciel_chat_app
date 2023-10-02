@@ -45,7 +45,7 @@ const login = async (req, res) => {
     return res.status(404).json({ message: "Invalid Email/Password!" });
   }
   const token = jwt.sign({ id: isUserExist._id }, process.env.JWT_SECRET_KEY, {
-    expiresIn: "35s",
+    expiresIn: "30d",
   });
   console.log("Generated Token\n", token);
 
