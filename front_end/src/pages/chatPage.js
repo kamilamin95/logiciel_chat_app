@@ -5,11 +5,13 @@ import { getUserDetails } from "../services/auth";
 import ChatBar from "../components/ChatBar";
 import ChatBody from "../components/ChatBody";
 import ChatFooter from "../components/ChatFooter";
+import {useNavigate} from 'react-router-dom'
 
 function ChatPage({ socket }) {
   const [serverMessages, setServerMessages] = useState([]);
   const [typingStatus, setTypingStatus] = useState("");
   const lastMessageScroll = useRef(null);
+  const navigate = useNavigate()
 
   const fetchUserDetails = async () => {
     try {
@@ -24,6 +26,9 @@ function ChatPage({ socket }) {
       });
     } catch (error) {
       console.log("Error", error);
+      if (error.response.status === 401) {
+        navigate('/login')
+      }
     }
   };
 
