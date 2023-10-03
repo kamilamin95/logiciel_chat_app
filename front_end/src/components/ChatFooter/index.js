@@ -4,13 +4,13 @@ function ChatFooter({ socket }) {
   const [message, setMessage] = React.useState("");
 
   const handleTyping = () =>
-    socket.emit("typing", `${localStorage.getItem("firstName")} is typing`);
+    socket.emit("typing", `${sessionStorage.getItem("firstName")} is typing`);
 
   const handleSendMessage = (e) => {
     e.preventDefault();
     socket.emit("message", {
       text: message,
-      name: localStorage.getItem("firstName"),
+      name: sessionStorage.getItem("firstName"),
       id: `${socket.id}${Math.random()}`,
       socketID: socket.id,
     });

@@ -7,19 +7,28 @@ import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useNavigate } from "react-router-dom";
+import { logOutUser } from "../../services/auth";
 
 function Header({ socket }) {
   const navigate = useNavigate();
   const [userLogin, setUserLogin] = React.useState(false);
 
-  const logout = () => {
-    socket.disconnect()
-    localStorage.clear();
-    navigate("/login");
-    setUserLogin(false);
+  const logout = async () => {
+    try {
+      await logOutUser().then((response) => {
+        if (response.status === 200) {
+          socket.disconnect();
+          sessionStorage.clear();
+          navigate("/login");
+          setUserLogin(false);
+        }
+      });
+    } catch (error) {
+      console.log("Error", error);
+    }
   };
   React.useEffect(() => {
-    if (localStorage.getItem("userLogin") !== null) {
+    if (sessionStorage.getItem("userLogin") !== null) {
       setUserLogin(true);
     } else {
       setUserLogin(false);
@@ -45,11 +54,7 @@ function Header({ socket }) {
             Login
           </Button> */}
           {userLogin ? (
-            <Button
-              onClick={() => logout()}
-              color="error"
-              variant="contained"
-            >
+            <Button onClick={() => logout()} color="error" variant="contained">
               Signout
             </Button>
           ) : (

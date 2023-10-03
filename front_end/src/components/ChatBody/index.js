@@ -6,7 +6,7 @@ function ChatBody({ messages, lastMessageScroll, typingStatus }) {
     <>
       <div className="message__container">
         {messages.map((message) =>
-          message.name === localStorage.getItem("firstName") ? (
+          message.name === sessionStorage.getItem("firstName") ? (
             <div className="message__chats" key={message.id}>
               <p className="sender__name">You</p>
               <div className="message__sender">

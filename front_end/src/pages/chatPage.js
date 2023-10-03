@@ -17,9 +17,9 @@ function ChatPage({ socket }) {
       firstRender = false;
       getUserDetails()
         .then((response) => {
-          localStorage.setItem("firstName", response.data.user.firstName);
-          localStorage.setItem("lastName", response.data.user.lastName);
-          localStorage.setItem("email", response.data.user.email);
+          sessionStorage.setItem("firstName", response.data.user.firstName);
+          sessionStorage.setItem("lastName", response.data.user.lastName);
+          sessionStorage.setItem("email", response.data.user.email);
           socket.emit("newUser", {
             userName: response.data.user.firstName,
             socketID: socket.id,
@@ -29,9 +29,9 @@ function ChatPage({ socket }) {
     }
     let interval = setInterval(() => {
       generateRefreshToken().then((response) => {
-        localStorage.setItem("firstName", response.data.user.firstName);
-        localStorage.setItem("lastName", response.data.user.lastName);
-        localStorage.setItem("email", response.data.user.email);
+        sessionStorage.setItem("firstName", response.data.user.firstName);
+        sessionStorage.setItem("lastName", response.data.user.lastName);
+        sessionStorage.setItem("email", response.data.user.email);
       });
     }, 1000 * 28);
 
