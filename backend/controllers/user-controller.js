@@ -135,7 +135,7 @@ const refreshToken = (req, res, next) => {
 
 const logout = (req, res, next) => {
   const cookies = req.headers.cookie;
-  const prevToken = cookies.split("=")[7];
+  const prevToken = cookies.split("=")[1];
   if (!prevToken) {
     return res.status(400).json({ message: "Token not found!" });
   }
