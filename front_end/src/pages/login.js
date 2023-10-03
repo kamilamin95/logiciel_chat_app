@@ -12,6 +12,7 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { userLogin } from "../services/auth";
 import { useNavigate } from "react-router-dom";
+import { emailValidator } from "../helpers/validator";
 
 const defaultTheme = createTheme();
 export default function Login() {
@@ -56,11 +57,16 @@ export default function Login() {
       return;
     }
 
+    if (emailValidator(email) === false) {
+      setEmailError(true);
+      return;
+    }
+
     try {
       await userLogin({ email, password }).then((response) => {
         if (response.status === 200) {
-          localStorage.setItem("user_accessToken", response.data.accessToken);
-          localStorage.setItem("userLogin", true);
+          sessionStorage.setItem("user_accessToken", response.data.accessToken);
+          sessionStorage.setItem("userLogin", true);
           navigate("/chatPage");
         }
       });
