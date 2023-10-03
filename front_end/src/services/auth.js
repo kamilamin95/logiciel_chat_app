@@ -33,7 +33,6 @@ const userSignup = async (data) => {
 };
 
 const getUserDetails = async () => {
-  let token = localStorage.getItem("user_accessToken");
   const result = await axios({
     method: "GET",
     withCredentials: true,
@@ -59,4 +58,17 @@ const generateRefreshToken = async () => {
   return result;
 };
 
-export { userLogin, userSignup, getUserDetails, generateRefreshToken };
+const logOutUser = async () => {
+  const result = await axios({
+    method: "POST",
+    withCredentials: true,
+    headers: {
+        'Access-Control-Allow-Origin': '*', 
+        'Content-Type': 'application/json'
+    },
+    url: `${BASE_URL.BASE_URL}/api/logout`,
+  });
+  return result;
+}
+
+export { userLogin, userSignup, getUserDetails, generateRefreshToken, logOutUser };
