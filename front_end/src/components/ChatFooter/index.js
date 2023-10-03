@@ -30,7 +30,7 @@ function ChatFooter({ socket }) {
           }}
           onKeyDown={handleTyping}
         />
-        <button className="sendBtn">SEND</button>
+        <button disabled={message === "" ? true : false} className="sendBtn">SEND</button>
       </form>
     </div>
   );

@@ -52,6 +52,13 @@ function ChatPage({ socket }) {
     socket.on("typingResponse", (data) => setTypingStatus(data));
   }, [socket]);
 
+  useEffect(() => {
+    let interval = setInterval(() => {
+      setTypingStatus("");
+    }, 1000);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <>
       <Header socket={socket} />
