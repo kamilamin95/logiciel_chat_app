@@ -5,8 +5,10 @@ import { generateRefreshToken, getUserDetails } from "../services/auth";
 import ChatBar from "../components/ChatBar";
 import ChatBody from "../components/ChatBody";
 import ChatFooter from "../components/ChatFooter";
+import PrivateChatBody from "../components/PrivateChatBody";
 
 let firstRender = true;
+let privateChat = false;
 function ChatPage({ socket }) {
   const [serverMessages, setServerMessages] = useState([]);
   const [typingStatus, setTypingStatus] = useState("");
@@ -63,13 +65,17 @@ function ChatPage({ socket }) {
     <>
       <Header socket={socket} />
       <div className="chat">
-        <ChatBar socket={socket} />
+        <ChatBar socket={socket} privateChat={privateChat} />
         <div className="chat__main">
-          <ChatBody
-            messages={serverMessages}
-            lastMessageScroll={lastMessageScroll}
-            typingStatus={typingStatus}
-          />
+          {privateChat ? (
+            <PrivateChatBody />
+          ) : (
+            <ChatBody
+              messages={serverMessages}
+              lastMessageScroll={lastMessageScroll}
+              typingStatus={typingStatus}
+            />
+          )}
           <ChatFooter socket={socket} />
         </div>
       </div>
