@@ -54,9 +54,8 @@ io.on("connection", (socket) => {
   });
 
   socket.on("typing", (data) => socket.broadcast.emit("typingResponse", data));
-
+  
   socket.on("disconnect", () => {
-    console.log("A user is disconnected");
     usersArr = usersArr.filter((user) => user.socketID !== socket.id);
 
     io.emit("newUserResponse", usersArr);

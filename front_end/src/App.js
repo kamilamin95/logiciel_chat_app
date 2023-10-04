@@ -6,10 +6,9 @@ import Login from "./pages/login";
 import Signup from "./pages/signup";
 import ChatPage from "./pages/chatPage";
 import socketClient from "socket.io-client";
-import BASE_URL from './settings.json'
+import BASE_URL from "./settings.json";
 
-
-const socket = socketClient(`${BASE_URL.BASE_URL}`)
+const socket = socketClient(`${BASE_URL.BASE_URL}`);
 
 function App() {
   return (
